@@ -6,28 +6,21 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 
-@Database(entities = [Student::class], version = 1, exportSchema = false)
-abstract class StudentDatabase: RoomDatabase() {
 
-    abstract fun studentDao(): StudentDao
+@Database(entities = [Student::class],version = 1,exportSchema = false)
+abstract class StudentDatabase:RoomDatabase() {
 
-    companion object {
-        @Volatile
-        private var INSTANCE: StudentDatabase? = null
-        fun getDatabase(context: Context): StudentDatabase {
-            val tempInstance = INSTANCE
-            if (tempInstance != null) {
-                return tempInstance
+    companion object{
+        var instance:StudentDatabase?=null;
+        fun getInstance(ctx: Context):StudentDatabase
+        {
+            if(instance!=null)
+            {
+                return  instance as StudentDatabase;
             }
-            synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    StudentDatabase::class.java,
-                    "stuf"
-                ).build()
-                INSTANCE = instance
-                return instance
-            }
+            instance= Room.databaseBuilder(ctx,StudentDatabase::class.java,"somename").run { allowMainThreadQueries() }.build();
+            return instance as StudentDatabase;
         }
     }
+    abstract fun StudentDao():StudentDao;
 }

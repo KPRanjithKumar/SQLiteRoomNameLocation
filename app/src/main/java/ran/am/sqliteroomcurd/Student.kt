@@ -8,5 +8,5 @@ import androidx.room.PrimaryKey
 data class Student (
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id : Int = 0, // this is how can include id if needed
     @ColumnInfo(name = "Name") val name: String,
-    @ColumnInfo(name = "Location") val phone: String?
+    @ColumnInfo(name = "Location") val location: String?
 )
